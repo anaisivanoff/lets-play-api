@@ -1,0 +1,9 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/letsplay
+  application:
+    name: lets-play-api
+
+server:
+  port: 8080
