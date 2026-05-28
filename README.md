@@ -1,42 +1,99 @@
-# lets-play-api
-API RESTful développée avec Spring Boot, Postman et MongoDB pour gérer des utilisateurs et des produits, avec authentification JWT, rôles (user/admin), mots de passe hashés et gestion robuste des erreurs.
+# SecurIT-Memory
 
-# 🎲 Let's Play API
-## 🚀 Objectifs d’apprentissage
+SecurIT-Memory est un jeu de memory développé en C# / WinForms sur le thème de la cybersécurité.  
+Le jeu propose plusieurs modes de difficulté et de jeu, une interface personnalisée et un fond animé façon terminal.
 
-Ce projet a été réalisé dans le cadre d’un exercice de mise en pratique de Spring Boot, de la conception d’API REST et de la sécurité applicative. Il m’a permis de :
+---
 
-- Maîtriser la création d’une API RESTful avec Spring Boot (architecture controller / service / repository, bonnes pratiques HTTP).
-- Intégrer et gérer les données avec MongoDB via Spring Data.
-- Implémenter des opérations CRUD complètes pour plusieurs entités (utilisateurs, produits, etc.).
-- Appliquer Spring Security et une authentification basée sur JWT (JSON Web Token).
-- Mettre en place un contrôle d’accès basé sur les rôles (utilisateur vs administrateur).
-- Implémenter une gestion sécurisée des mots de passe avec hashage BCrypt (hash + salt).
-- Construire une gestion robuste des erreurs avec des codes HTTP pertinents et des réponses JSON claires (validation, authentification, autorisation, conflits, etc.).
+## 1. Objectifs du projet
 
-## 🧱 Stack technique
+Ce projet a été réalisé dans le cadre d’un exercice de développement logiciel en C# et WinForms.  
+Il m’a permis de :
 
-- Langage : Java 17 (ou ta version)
-- Framework : Spring Boot
-  - Spring Web (API REST)
-  - Spring Data MongoDB
-  - Spring Security
-- Base de données : MongoDB
-- Authentification : JWT (JSON Web Token)
-- Build : Maven
-- Tests manuels : Postman
+- Concevoir une application graphique complète avec WinForms.
+- Structurer le code en programmation orientée objet (classes, modèles, logique métier).
+- Gérer des événements, des timers et des animations graphiques.
+- Implémenter plusieurs modes de jeu (chronomètre, hardcore, mémoire inversée).
+- Créer une interface personnalisée avec un thème cybersécurité et un fond animé type “terminal”.
 
-#⚙️ Installation & lancement
+---
 
-#Prérequis
+## 2. Fonctionnalités
 
-- Java installé (JDK 17 recommandé)
-- Maven installé
-- MongoDB en cours d’exécution (local ou Atlas)
-- Git installé
+- Modes de difficulté :  
+  - Facile (4×4)  
+  - Moyen (6×6)  
+  - Difficile (8×8)
 
-### Récupérer le projet
+- Modes de jeu :  
+  - Mémoire inversée : les cartes se retournent automatiquement.  
+  - Mode chronomètre : le temps est compté.  
+  - Mode hardcore : nombre d’erreurs limité.
 
-bash
-git clone https://github.com/anaisivanoff/lets-play-api.git
-cd lets-play-api
+- Interface graphique :
+  - Fond animé façon terminal via l’événement `Paint`.
+  - Grille de cartes générée dynamiquement selon la difficulté.
+  - Menus et navigation pour lancer/rejouer une partie.
+
+---
+
+## 3. Technologies utilisées
+
+- Langage : C# (.NET)
+- Framework : WinForms
+- Concepts :
+  - Programmation orientée objet
+  - Timers (`System.Windows.Forms.Timer`)
+  - Gestion d’événements (clics, Paint, etc.)
+  - Génération dynamique d’UI
+- IDE : Visual Studio
+
+---
+
+## 4. Installation et exécution
+
+### Prérequis
+
+- Windows
+- Visual Studio (avec charge de travail “Développement .NET de bureau”)
+
+### Étapes
+
+1. Cloner le dépôt :
+
+   ```bash
+   git clone https://github.com/anaisivanoff/SecurIT-Memory.git
+   cd SecurIT-Memory
+   ```
+
+2. Ouvrir la solution `SecurIT-Memory.sln` dans Visual Studio.
+3. Choisir le projet de démarrage si nécessaire.
+4. Lancer l’application avec le bouton **Start** (ou F5).
+
+---
+
+## 5. Organisation du code
+
+- Formulaires WinForms : interface utilisateur, menus, écran de jeu.
+- Classes métier : représentation des cartes, gestion du plateau, logique des modes de jeu.
+- Ressources : images, icônes et éléments graphiques pour le thème cybersécurité.
+
+(À adapter avec les vrais noms de formulaires / classes si besoin.)
+
+---
+
+## 6. Mon rôle dans le projet
+
+- Conception de l’interface et du thème cybersécurité.
+- Implémentation d’une partie de la logique de jeu (modes, difficulté…).
+- Gestion des animations et du fond “terminal”.
+- Organisation du code et des ressources.
+
+---
+
+## 7. Pistes d’amélioration
+
+- Ajouter un système de score persistant.
+- Enregistrer les meilleures performances (leaderboard).
+- Ajouter des effets sonores.
+- Internationalisation (FR/EN).
