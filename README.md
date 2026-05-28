@@ -1,99 +1,160 @@
-# SecurIT-Memory
+# lets-play-api
 
-SecurIT-Memory est un jeu de memory développé en C# / WinForms sur le thème de la cybersécurité.  
-Le jeu propose plusieurs modes de difficulté et de jeu, une interface personnalisée et un fond animé façon terminal.
-
----
-
-## 1. Objectifs du projet
-
-Ce projet a été réalisé dans le cadre d’un exercice de développement logiciel en C# et WinForms.  
-Il m’a permis de :
-
-- Concevoir une application graphique complète avec WinForms.
-- Structurer le code en programmation orientée objet (classes, modèles, logique métier).
-- Gérer des événements, des timers et des animations graphiques.
-- Implémenter plusieurs modes de jeu (chronomètre, hardcore, mémoire inversée).
-- Créer une interface personnalisée avec un thème cybersécurité et un fond animé type “terminal”.
+API RESTful développée avec Spring Boot et MongoDB pour gérer des utilisateurs et des produits, avec authentification JWT, rôles (USER / ADMIN), mots de passe hashés et gestion robuste des erreurs. [web:94][web:92]
 
 ---
 
-## 2. Fonctionnalités
+## 1. Contexte et objectifs
 
-- Modes de difficulté :  
-  - Facile (4×4)  
-  - Moyen (6×6)  
-  - Difficile (8×8)
+Ce projet a été réalisé dans le cadre de ma formation pour travailler sur :
 
-- Modes de jeu :  
-  - Mémoire inversée : les cartes se retournent automatiquement.  
-  - Mode chronomètre : le temps est compté.  
-  - Mode hardcore : nombre d’erreurs limité.
+- La conception d’une API REST propre (contrôleurs, services, repositories).
+- L’authentification et l’autorisation avec JWT.
+- La persistance des données dans une base NoSQL (MongoDB).
+- Une gestion claire des erreurs et des statuts HTTP.
 
-- Interface graphique :
-  - Fond animé façon terminal via l’événement `Paint`.
-  - Grille de cartes générée dynamiquement selon la difficulté.
-  - Menus et navigation pour lancer/rejouer une partie.
+Cas d’usage principal : permettre à des utilisateurs de s’inscrire, se connecter et gérer une liste de produits, avec des droits différents selon les rôles.
 
 ---
 
-## 3. Technologies utilisées
+## 2. Stack technique
 
-- Langage : C# (.NET)
-- Framework : WinForms
-- Concepts :
-  - Programmation orientée objet
-  - Timers (`System.Windows.Forms.Timer`)
-  - Gestion d’événements (clics, Paint, etc.)
-  - Génération dynamique d’UI
-- IDE : Visual Studio
+- Java et Spring Boot (API REST, injection de dépendances, validation).
+- Spring Security pour l’authentification et l’autorisation. [web:94]
+- MongoDB pour la persistance des utilisateurs et des produits. [web:92]
+- JWT (JSON Web Token) pour les tokens d’accès. [web:94]
+- Maven pour la gestion des dépendances.
+- IntelliJ IDEA comme IDE, Postman/Insomnia pour les tests d’API.
 
 ---
 
-## 4. Installation et exécution
+## 3. Installation et lancement
 
-### Prérequis
+### 3.1. Prérequis
 
-- Windows
-- Visual Studio (avec charge de travail “Développement .NET de bureau”)
+- Java 17 ou plus.
+- Maven (ou le wrapper `mvnw` fourni).
+- MongoDB en local (par défaut `mongodb://localhost:27017`) ou via Docker. [web:92][web:96]
 
-### Étapes
+Exemple avec Docker :
 
-1. Cloner le dépôt :
+```bash
+docker run -d --name lets-play-mongo -p 27017:27017 mongo
+```
 
-   ```bash
-   git clone https://github.com/anaisivanoff/SecurIT-Memory.git
-   cd SecurIT-Memory
-   ```
+### 3.2. Cloner le projet
 
-2. Ouvrir la solution `SecurIT-Memory.sln` dans Visual Studio.
-3. Choisir le projet de démarrage si nécessaire.
-4. Lancer l’application avec le bouton **Start** (ou F5).
+```bash
+git clone https://github.com/anaisivanoff/lets-play-api.git
+cd lets-play-api/lets-play-api
+```
+
+### 3.3. Configuration
+
+Dans `src/main/resources/application.properties` (ou `application.yml`), définir au minimum :
+
+```properties
+spring.data.mongodb.uri=mongodb://localhost:27017/letsplay
+jwt.secret=change_me_par_un_secret_long
+jwt.expiration=3600000
+```
+
+Adapter ces propriétés aux noms réellement utilisés dans ton projet.
+
+### 3.4. Lancer l’application
+
+Depuis le dossier où se trouve `pom.xml` :
+
+```bash
+./mvnw spring-boot:run
+# ou
+mvn spring-boot:run
+```
+
+L’API est accessible sur :
+
+```text
+http://localhost:8080
+```
 
 ---
 
-## 5. Organisation du code
+## 4. Endpoints principaux
 
-- Formulaires WinForms : interface utilisateur, menus, écran de jeu.
-- Classes métier : représentation des cartes, gestion du plateau, logique des modes de jeu.
-- Ressources : images, icônes et éléments graphiques pour le thème cybersécurité.
+Les chemins suivants sont à adapter aux URLs exactes de ton projet.
 
-(À adapter avec les vrais noms de formulaires / classes si besoin.)
+### Authentification
+
+- `POST /api/auth/register`  
+  Corps : `{"username": "...", "password": "...", "role": "USER"}`  
+  Accès : public.  
+  Effet : crée un utilisateur avec mot de passe hashé.
+
+- `POST /api/auth/login`  
+  Corps : `{"username": "...", "password": "..."}`  
+  Accès : public.  
+  Effet : renvoie un JWT si les identifiants sont valides. [web:94][web:93]
+
+### Utilisateurs
+
+- `GET /api/users/me`  
+  Accès : utilisateur connecté (JWT requis dans `Authorization: Bearer <token>`).  
+- `GET /api/users`  
+  Accès : ADMIN uniquement.
+
+### Produits
+
+- `GET /api/products`  
+- `POST /api/products`  
+- `PUT /api/products/{id}`  
+- `DELETE /api/products/{id}`  
+
+Accès : à adapter en fonction de ta logique (lecture pour USER, écriture pour ADMIN, etc.).
 
 ---
 
-## 6. Mon rôle dans le projet
+## 5. Sécurité et JWT
 
-- Conception de l’interface et du thème cybersécurité.
-- Implémentation d’une partie de la logique de jeu (modes, difficulté…).
-- Gestion des animations et du fond “terminal”.
-- Organisation du code et des ressources.
+- Authentification basée sur JWT :  
+  - Connexion via `/api/auth/login`.  
+  - L’API renvoie un token JWT dans la réponse. [web:94][web:93]
+  - Les requêtes protégées doivent inclure l’en-tête :
+
+    ```http
+    Authorization: Bearer <JWT>
+    ```
+
+- Rôles : `USER` et `ADMIN`, gérés par Spring Security via la configuration HTTP ou des annotations sur les endpoints. [web:92][web:96]
 
 ---
 
-## 7. Pistes d’amélioration
+## 6. Gestion des erreurs
 
-- Ajouter un système de score persistant.
-- Enregistrer les meilleures performances (leaderboard).
-- Ajouter des effets sonores.
-- Internationalisation (FR/EN).
+L’API renvoie des codes HTTP explicites :
+
+- 400 : requête invalide (validation, format des données, etc.).
+- 401 : authentification manquante ou invalide.
+- 403 : accès interdit (rôle insuffisant).
+- 404 : ressource non trouvée (produit, utilisateur, etc.).
+- 500 : erreur interne inattendue.
+
+Les erreurs peuvent être centralisées dans des handlers globaux (par exemple avec `@ControllerAdvice`) ou des exceptions personnalisées. [web:93][web:94]
+
+---
+
+## 7. Mon rôle dans le projet
+
+- Conception et implémentation de l’API REST (controllers, services, repositories).
+- Mise en place de l’authentification JWT et de la gestion des rôles.
+- Intégration de MongoDB pour la persistance des données.
+- Gestion des erreurs et organisation générale du projet.
+- Tests des endpoints avec Postman.
+
+---
+
+## 8. Pistes d’amélioration
+
+- Ajouter des tests unitaires et d’intégration (Spring Boot Test).
+- Générer une documentation OpenAPI/Swagger.
+- Mettre en place un système de refresh token.
+- Dockeriser l’API et la base MongoDB pour un déploiement plus simple.
